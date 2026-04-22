@@ -1,23 +1,34 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import React from "react";
-import { useColorScheme } from "react-native";
+import { Stack } from "expo-router";
+import "@/global.css";
+import { authClient } from "@/lib/auth-client";
+import { AuthLoadingScreen } from "@/features/auth/components/auth-loading-screen";
+import { AppProviders } from "@/providers/app-providers";
 
-import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import AppTabs from "@/components/app-tabs";
-import { ConvexAuthProvider } from "@/providers/convex-better-auth";
+function RootNavigator() {
+  const { data: session, isPending } = authClient.useSession();
+  const isAuthenticated = Boolean(session?.session);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  if (isPending) {
+    return <AuthLoadingScreen />;
+  }
+
   return (
-    <ConvexAuthProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <AnimatedSplashOverlay />
-        <AppTabs />
-      </ThemeProvider>
-    </ConvexAuthProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen name="(public)" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(app)" />
+      </Stack.Protected>
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AppProviders>
+      <RootNavigator />
+    </AppProviders>
   );
 }
