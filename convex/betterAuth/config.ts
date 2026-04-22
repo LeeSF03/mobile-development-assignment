@@ -23,15 +23,12 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) =>
     baseURL: siteUrl,
     trustedOrigins: ["mobiledevelopment://"],
     database: authComponent.adapter(ctx),
-    emailAndPassword: {
-      enabled: true,
-      requireEmailVerification: false,
-    },
     socialProviders: {
       google: {
-        prompt: "select_account",
+        accessType: "offline",
         clientId: process.env.GOOGLE_CLIENT_ID!,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        prompt: "select_account consent",
         redirectURI: `${siteUrl}/api/auth/callback/google`,
       },
     },

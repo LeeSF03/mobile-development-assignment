@@ -16,6 +16,7 @@
     "@better-auth/expo": "1.5.3",
     "@convex-dev/better-auth": "^0.11.5",
     "@expo/vector-icons": "^15.0.2",
+    "@hookform/resolvers": "^5.2.2",
     "@react-navigation/bottom-tabs": "^7.15.5",
     "@react-navigation/elements": "^2.9.10",
     "@react-navigation/native": "^7.1.33",
@@ -39,6 +40,7 @@
     "heroui-native": "^1.0.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.73.1",
     "react-native": "0.83.4",
     "react-native-gesture-handler": "~2.30.0",
     "react-native-reanimated": "4.2.1",
@@ -50,7 +52,8 @@
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.2.2",
     "tailwindcss": "^4.2.4",
-    "uniwind": "^1.6.2"
+    "uniwind": "^1.6.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
