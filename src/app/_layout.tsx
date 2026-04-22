@@ -1,30 +1,34 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import React from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useColorScheme } from "react-native";
-import { HeroUINativeProviderRaw } from "heroui-native/provider-raw";
-
-import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import AppTabs from "@/components/app-tabs";
-import { ConvexAuthProvider } from "@/providers/convex-better-auth";
+import { Stack } from "expo-router";
 import "@/global.css";
+import { authClient } from "@/lib/auth-client";
+import { AuthLoadingScreen } from "@/features/auth/components/auth-loading-screen";
+import { AppProviders } from "@/providers/app-providers";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+function RootNavigator() {
+  const { data: session, isPending } = authClient.useSession();
+  const isAuthenticated = Boolean(session?.session);
+
+  if (isPending) {
+    return <AuthLoadingScreen />;
+  }
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ConvexAuthProvider>
-        <HeroUINativeProviderRaw>
-          <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-            <AnimatedSplashOverlay />
-            <AppTabs />
-          </ThemeProvider>
-        </HeroUINativeProviderRaw>
-      </ConvexAuthProvider>
-    </GestureHandlerRootView>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen name="(public)" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(app)" />
+      </Stack.Protected>
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AppProviders>
+      <RootNavigator />
+    </AppProviders>
   );
 }

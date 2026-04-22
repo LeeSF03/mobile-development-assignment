@@ -10,7 +10,7 @@
     "ios": "expo run:ios",
     "prebuild": "expo prebuild",
     "lint": "expo lint",
-    "db:generate:auth": "bun x @better-auth/cli generate --config ./convex/betterAuth/config.ts --output ./convex/betterAuth/schema.ts -y"
+    "db:generate:auth": "bun x @better-auth/cli generate --config ./convex/betterAuth/auth.ts --output ./convex/betterAuth/schema.ts -y"
   },
   "dependencies": {
     "@better-auth/expo": "1.5.3",
