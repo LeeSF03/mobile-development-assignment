@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as googleSheets from "../googleSheets.js";
 import type * as http from "../http.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  googleSheets: typeof googleSheets;
   http: typeof http;
 }>;
 
